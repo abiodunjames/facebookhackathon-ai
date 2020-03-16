@@ -1,17 +1,18 @@
 <template>
-  <div class="">
-<el-menu
-  :default-active="activeIndex2"
-  class="el-menu-demo"
-  mode="horizontal"
-  @select="handleSelect"
-  background-color="#545c64"
-  text-color="#fff"
-  active-text-color="#ffd04b">
-  <el-menu-item index="1">Home</el-menu-item>
-  </el-menu>
+  <div class>
+    <el-menu
+      :default-active="activeIndex2"
+      class="el-menu-demo"
+      mode="horizontal"
+      @select="handleSelect"
+      background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#ffd04b"
+    >
+      <el-menu-item index="1">Home</el-menu-item>
+    </el-menu>
 
-<br/>
+    <br />
 
     <el-upload
       action="#"
@@ -28,32 +29,38 @@
       <img width="100%" :src="dialogImageUrl" alt />
     </el-dialog>
 
-<br/>
-<el-steps :active="active" finish-status="success">
-  <el-step title="Upload Images"></el-step>
-  <el-step title="Classify Images"></el-step>
-  <el-step title="See Results"></el-step>
-</el-steps>
+    <br />
+    <el-steps :active="active" finish-status="success">
+      <el-step title="Upload Images"></el-step>
+      <el-step title="Classify Images"></el-step>
+      <el-step title="See Results"></el-step>
+    </el-steps>
 
-<el-row>
-  <el-col v-bind:body-style="{ padding: '10px' }" :span="6" v-for="(file, index) in files"  :key="file" :offset="index > 0 ? 0 : 0">
-    <el-card :body-style="{ margin: '10px'}" >
-      <img  :src="file.url">
-        <div style="padding: 14px;">
-        <h2>{{file.prediction}}</h2>
-        <div class="bottom clearfix">
+    <el-row>
+      <el-col
+        v-bind:body-style="{ padding: '10px' }"
+        :span="6"
+        v-for="(file, index) in files"
+        :key="file"
+        :offset="index > 0 ? 0 : 0"
+      >
+        <el-card :body-style="{ margin: '10px'}">
+          <img :src="file.url" class="display" />
+          <div style="padding: 0px;">
+            <h4>{{file.prediction}}</h4>
+            <div class="bottom clearfix">
               <div>
-                    <span v-bind:class="[file.status ? 'dot dot-success': 'dot dot-error']">
-                      </span>
-                  <p> {{file.status? 'Healthy':'Infected'}}</p>
+                <span>
+                  <strong>Status: &nbsp;</strong>
+                </span>
+                <span v-bind:class="[file.status ? 'dot dot-success': 'dot dot-error']"></span>
+                <span>&nbsp; {{file.status? 'Healthy':'Infected'}}</span>
               </div>
-              
-        </div>
-      </div>
-    </el-card>
-  </el-col>
-</el-row>
-
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
@@ -67,7 +74,7 @@ export default {
       dialogImageUrl: "",
       dialogVisible: false,
       files: [],
-      classified:[],
+      classified: []
     };
   },
   methods: {
@@ -104,9 +111,9 @@ export default {
       const outputData = outputMap.values().next().value.data;
       const prediction = this.printMatches(outputData);
       const status = prediction.includes("healthy");
-      const item  = { status, prediction , url };
-      if(!this.files.includes(item)) {
-        this.files.push(item)
+      const item = { status, prediction, url };
+      if (!this.files.includes(item)) {
+        this.files.push(item);
       }
     },
     printMatches(data) {
@@ -128,24 +135,38 @@ export default {
 </script>
 
 <style scoped>
-.success{
-  border:1px solid springgreen
+.success {
+  border: 1px solid green;
 }
 .error {
-  border: 1px solid red
+  border: 1px solid red;
 }
 .dot {
-  height: 25px;
-  width: 25px;
+  height: 13px;
+  width: 13px;
   background-color: #bbb;
   border-radius: 50%;
   display: inline-block;
 }
-.dot-error{
-  background-color:red
+.dot-error {
+  background-color: red;
 }
 .dot-success {
-background-color:springgreen
-
+  background-color: green;
+}
+.el-card {
+  height: 550px !important;
+  margin: 10px;
+}
+.display {
+  width: 250px;
+}
+@media (max-width: 620px) {
+  .el-col {
+    /* width: 100%; */
+  }
+}
+.el-col-6 {
+  width: auto;
 }
 </style>
